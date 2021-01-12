@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyparser =require('body-parser');
 //const ejs = require('ejs');
+const mongoose = require('mongoose');
+const { urlencoded } = require('express');
 
 var item = '';
 var items = [];
@@ -12,6 +14,21 @@ app.set('view engine','ejs')
 
 app.use(express.static('public'));
 app.use(bodyparser.urlencoded({extended:true}));
+
+
+mongoose.connect('mongodb://127.0.0.1:27017/items',{useNewUrlParser:true, useUnifiedTopology:true});
+
+const ItemSchema = mongoose.Schema({
+    name: String
+});
+
+const Item = new mongoose.model('Item',ItemSchema);
+
+// let item1 = new Item({
+//     name:'I am the first item'
+// });
+
+// item1.save();
 
 app.get('/', function(req, res){
 
