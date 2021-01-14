@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyparser =require('body-parser');
-//const ejs = require('ejs');
 const mongoose = require('mongoose');
+
 const { urlencoded } = require('express');
 
 var item = '';
@@ -22,18 +22,25 @@ const ItemSchema = mongoose.Schema({
     name: String
 });
 
-const Item = new mongoose.model('Item',ItemSchema);
+const ToDoItem = mongoose.model('Item',ItemSchema);
 
 // let item1 = new Item({
 //     name:'I am the first item'
 // });
 
 // item1.save();
+let set = [];
 
 app.get('/', function(req, res){
 
     var day = new Date();
     var nday = day.toLocaleDateString('en-US');
+
+    set = ToDoItem.find({},function(err,found){
+        console.log(found[0].name);
+    });
+
+    //console.log(set)
     
     res.render('list',{listTitle:'today is '+nday,newitems:items});
 });
