@@ -22,36 +22,39 @@ const ItemSchema = mongoose.Schema({
     name: String
 });
 
-const ToDoItem = mongoose.model('Item',ItemSchema);
+const Item = mongoose.model('Item',ItemSchema);
 
-// let item1 = new Item({
-//     name:'I am the first item'
-// });
 
-// item1.save();
-let set = [];
 
 app.get('/', function(req, res){
 
     var day = new Date();
     var nday = day.toLocaleDateString('en-US');
 
-    set = ToDoItem.find({},function(err,found){
+    Item.find({},function(err,found){
         console.log(found[0].name);
+        res.render('list',{listTitle:'today is '+nday,newitems:found});
     });
 
     //console.log(set)
     
-    res.render('list',{listTitle:'today is '+nday,newitems:items});
+    //res.render('list',{listTitle:'today is '+nday,newitems:items});
 });
 
 app.post('/',function(req,res){
     item = req.body.listItem;
+    console.log(item);
     if (req.body.list == 'work') {
         workItems.push(item);
+        console.log(workItems);
         res.redirect('/work');
     }
     else{
+        let itemTobeSaved = new Item({
+            name : item
+        })
+        itemTobeSaved.save();
+
         items.push(item)
         res.redirect('/');
     }
@@ -59,6 +62,13 @@ app.post('/',function(req,res){
     console.log(req.body);
 });
 
+app.post('/updateStatus',function (req,res) {
+    console.log('inside the update status block');
+    console.log(req.body);
+})
+
+
+//this is the work item section...
 app.get('/work',function(req,res){
     res.render('list',{listTitle:'work',newitems:workItems})
 });

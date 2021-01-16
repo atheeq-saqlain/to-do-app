@@ -6,10 +6,12 @@
 
     <div class="box">
         <% for(var i=0; i<newitems.length; i++ ){ %>
-            <div class="item">
-                <input type="checkbox" name="" id="">
-                <p><%= newitems[i] %></p>
-            </div>
+            <form action="/updateStatus" method="post">
+                <div class="item">
+                    <input type="checkbox" name="checkbox" id="" value="<%= newitems[i].name %> " onchange="this.form.submit()">
+                    <p><%= newitems[i].name %></p>
+                </div>
+            </form>
         <%}%>
         <form class="item" action="/" method="post">
             <input type="text" name="listItem" id="" placeholder="new item" autocomplete="off" autofocus>
