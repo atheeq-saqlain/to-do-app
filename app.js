@@ -143,7 +143,8 @@ app.post('/delete',function (req,res) {
         if (err) {
             console.log(err);
         }else{
-            console.log('item deleted...')
+            console.log('item deleted...');
+            res.redirect('/');
         }
     });
     } else {
