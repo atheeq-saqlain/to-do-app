@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyparser =require('body-parser');
 const mongoose = require('mongoose');
@@ -91,9 +92,11 @@ app.get('/:param',function (req, res) {
                     ]
                 });
                 console.log('list created with default item...');
-                newlist.save();
-                console.log('list saved\n redirecting...');
-                res.redirect('/'+listName);
+                newlist.save(function(err){
+                    if (!err) {
+                        res.redirect('/'+listName);
+                    }
+                });
             } else {
                 console.log('found');
                 res.render('list',{listTitle: listName, newitems: foundList.items})
