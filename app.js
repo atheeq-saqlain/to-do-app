@@ -76,6 +76,10 @@ app.post('/',function(req,res){
     }
 });
 
+app.get('/login',function(req,res){
+    res.render('login');
+})
+
 app.get('/:param',function (req, res) {
     let listName  = req.params.param;
     console.log('the list name is ',listName);
